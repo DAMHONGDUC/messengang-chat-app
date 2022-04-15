@@ -1,4 +1,4 @@
-import 'package:chat_app/screens/login.dart';
+import 'package:chat_app/screens/singn_in_screen.dart';
 import 'package:chat_app/values/app_asstets.dart';
 import 'package:chat_app/values/app_styles.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +51,7 @@ class WelcomeScreen extends StatelessWidget {
           TextButton(
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                    MaterialPageRoute(builder: (context) => SignInScreen()));
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
