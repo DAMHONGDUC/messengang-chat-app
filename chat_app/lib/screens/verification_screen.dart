@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
 class VerificationScreen extends StatelessWidget {
-  final String number_phone;
-  const VerificationScreen({Key? key, required this.number_phone})
-      : super(key: key);
+  final String email;
+  const VerificationScreen({Key? key, required this.email}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class VerificationScreen extends StatelessWidget {
               height: 15,
             ),
             Text(
-              number_phone,
+              email,
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
