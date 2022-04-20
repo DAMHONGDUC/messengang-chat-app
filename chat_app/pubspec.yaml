@@ -40,6 +40,8 @@ dependencies:
   firebase_core: ^1.14.1
   provider: ^4.3.3
   email_auth: ^1.0.0
+  shared_preferences: ^2.0.13
+  firebase_storage: ^10.2.12
 
 dev_dependencies:
   flutter_test:

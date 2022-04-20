@@ -1,5 +1,5 @@
 import 'package:chat_app/providers/authProvider.dart';
-import 'package:chat_app/screens/singn_in_screen.dart';
+import 'package:chat_app/screens/sign_in_screen.dart';
 import 'package:chat_app/values/app_asstets.dart';
 import 'package:chat_app/values/app_styles.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +13,6 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  // void Check_SignIn() async {
-  //   AuthProvider authProvider = context.read<AuthProvider>();
-  //   bool isSignIn = await authProvider.
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,4 +1,5 @@
 import 'package:chat_app/values/app_asstets.dart';
+import 'package:chat_app/screens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:email_auth/email_auth.dart';
@@ -95,17 +96,50 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   void verify() {
-    print(emailAuth!.validateOtp(
-        recipientMail: widget.email, userOtp: _otpcontroller.value.text));
+    bool bool_verify = emailAuth!.validateOtp(
+        recipientMail: widget.email, userOtp: _otpcontroller.value.text);
+    if (bool_verify) {
+      showAlertDialog(context, "Verification successful", () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: ((context) => SignInScreen())));
+      });
+    } else {
+      showAlertDialog(context, "Verification failed", () {
+        Navigator.of(context).pop();
+      });
+    }
   }
 
-  /// a void funtion to send the OTP to the user
-  /// Can also be converted into a Boolean function and render accordingly for providers
   void sendOtp() async {
     bool result =
         await emailAuth!.sendOtp(recipientMail: widget.email, otpLength: 2);
     if (result) {
     } else {}
+  }
+
+  showAlertDialog(BuildContext context, String text, VoidCallback onpress) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: onpress,
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Notification"),
+      content: Text(text),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   @override
@@ -138,7 +172,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               height: 15,
             ),
             Text(
-              'SMS Verification code has been sent',
+              'Verification code has been sent to',
               style: TextStyle(color: Colors.black),
             ),
             SizedBox(
@@ -170,7 +204,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       minimumSize: Size.fromHeight(40),
                       shape: new RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20)))),
-                  child: Text('Send OTP')),
+                  child: Text('Send OTP again')),
             ),
             Padding(
               padding: const EdgeInsets.all(25.0),

@@ -1,11 +1,16 @@
-import 'package:chat_app/models/user.dart';
+import 'package:chat_app/models/userChat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  MyUser? _userFromFirebase(User user) {
-    return user != null ? MyUser(userID: user.uid, email: user.email) : null;
+  UserChat? _userFromFirebase(User? user) {
+    return user != null ? UserChat(id: user.uid, email: user.email) : null;
+  }
+
+  UserChat? currUser() {
+    final User? user = _auth.currentUser;
+    return UserChat(id: user!.uid, email: user!.email);
   }
 
   Future SignIn_WithEmailPasword(String email, String password) async {

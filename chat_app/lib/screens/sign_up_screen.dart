@@ -1,21 +1,13 @@
-import 'package:chat_app/screens/chats_screen.dart';
-import 'package:chat_app/screens/singn_in_screen.dart';
+import 'package:chat_app/models/userChat.dart';
+import 'package:chat_app/screens/main_screen.dart';
+import 'package:chat_app/screens/sign_in_screen.dart';
 import 'package:chat_app/screens/verification_screen.dart';
-import 'package:chat_app/services/auth.dart';
+import 'package:chat_app/services/authService.dart';
 import 'package:chat_app/values/app_asstets.dart';
+import 'package:chat_app/services/databaseMethod.dart';
+import 'package:chat_app/widget/loadingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-class SignUpProvider extends ChangeNotifier {
-  bool _isLoading = false;
-
-  get isLoading => _isLoading;
-
-  void set_isloading(bool val) {
-    _isLoading = val;
-    notifyListeners();
-  }
-}
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -25,33 +17,33 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController? email_TextEditingController;
-  TextEditingController? fullname_TextEditingController;
-  TextEditingController? password_TextEditingController;
-  TextEditingController? repeatPassword_TextEditingController;
+  TextEditingController? emailController;
+  TextEditingController? fullnameController;
+  TextEditingController? passwordController;
+  TextEditingController? repeatPasswordController;
   final _formKey = GlobalKey<FormState>();
   final AuthServices authServices = new AuthServices();
+  final DatabaseMethods databaseMethods = new DatabaseMethods();
+
   bool _isLoaing = false;
   bool _obscureText2 = true;
   bool _obscureText = true;
 
-  //final AuthServices authServices = Provider.of<AuthServices>(context);
-
   @override
   void initState() {
-    email_TextEditingController = new TextEditingController();
-    fullname_TextEditingController = new TextEditingController();
-    password_TextEditingController = new TextEditingController();
-    repeatPassword_TextEditingController = new TextEditingController();
+    emailController = new TextEditingController();
+    fullnameController = new TextEditingController();
+    passwordController = new TextEditingController();
+    repeatPasswordController = new TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    email_TextEditingController!.dispose();
-    fullname_TextEditingController!.dispose();
-    password_TextEditingController!.dispose();
-    repeatPassword_TextEditingController!.dispose();
+    emailController!.dispose();
+    fullnameController!.dispose();
+    passwordController!.dispose();
+    repeatPasswordController!.dispose();
     super.dispose();
   }
 
@@ -60,15 +52,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         _isLoaing = true;
       });
-      authServices.SignUp_WithEmailPasword(email_TextEditingController!.text,
-              password_TextEditingController!.text)
+
+      authServices.SignUp_WithEmailPasword(
+              emailController!.text, passwordController!.text)
           .then((val) {
-        print(val);
+        UserChat userChat = new UserChat(
+            email: emailController!.text,
+            name: fullnameController!.text,
+            id: "1",
+            photo: "url");
+        databaseMethods.UploadUser(userChat.toJSON());
+
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => VerificationScreen(
-                    email: email_TextEditingController!.text)));
+                builder: (context) =>
+                    VerificationScreen(email: emailController!.text)));
       });
     }
   }
@@ -96,11 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Scaffold(
         body: SafeArea(
             child: _isLoaing
-                ? Container(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
+                ? LoadingWidget()
                 : SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -143,7 +138,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         ? null
                                         : "Please enter a valid email";
                                   },
-                                  controller: email_TextEditingController,
+                                  controller: emailController,
                                   decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.all(15.0),
                                       border: OutlineInputBorder(
@@ -160,7 +155,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         ? "Please enter a valid fullname"
                                         : null;
                                   },
-                                  controller: fullname_TextEditingController,
+                                  controller: fullnameController,
                                   decoration: const InputDecoration(
                                     contentPadding: EdgeInsets.all(15.0),
                                     border: OutlineInputBorder(
@@ -178,7 +173,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         ? "Please enter password 8+ character"
                                         : null;
                                   },
-                                  controller: password_TextEditingController,
+                                  controller: passwordController,
                                   decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(15.0),
                                       border: OutlineInputBorder(
@@ -199,14 +194,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 TextFormField(
                                   obscureText: _obscureText2,
                                   validator: (val) {
-                                    return password_TextEditingController!
-                                                .text ==
-                                            val
+                                    return passwordController!.text == val
                                         ? null
                                         : "The password not match";
                                   },
-                                  controller:
-                                      repeatPassword_TextEditingController,
+                                  controller: repeatPasswordController,
                                   decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(15.0),
                                       border: OutlineInputBorder(
