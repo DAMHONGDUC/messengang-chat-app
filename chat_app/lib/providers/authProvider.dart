@@ -56,10 +56,11 @@ class AuthProvider extends ChangeNotifier {
 
   UserChat? currUser() {
     User? user = firebaseAuth.currentUser;
-    return UserChat(id: user!.uid, email: user.email);
+    return user == null ? null : UserChat(id: user.uid, email: user.email);
   }
 
-  Future SignIn_WithEmailPasword(String email, String password) async {
+  Future<UserChat?> SignIn_WithEmailPasword(
+      String email, String password) async {
     try {
       UserCredential result = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -70,7 +71,8 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future SignUp_WithEmailPasword(String email, String password) async {
+  Future<UserChat?> SignUp_WithEmailPasword(
+      String email, String password) async {
     try {
       UserCredential result = await firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);

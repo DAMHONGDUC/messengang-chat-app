@@ -5,6 +5,7 @@ import 'package:chat_app/screens/main_screen.dart';
 import 'package:chat_app/screens/sign_in_screen.dart';
 import 'package:chat_app/screens/verification_screen.dart';
 import 'package:chat_app/values/app_asstets.dart';
+import 'package:chat_app/widget/custom_dialog.dart';
 import 'package:chat_app/widget/loadingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -54,19 +55,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       authProvider.SignUp_WithEmailPasword(
               emailController!.text, passwordController!.text)
-          .then((val) {
-        UserChat userChat = new UserChat(
-            email: emailController!.text,
-            name: fullnameController!.text,
-            id: "1",
-            photo: "url");
-        databaseProvider.UploadUser(userChat.toJSON());
-
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    VerificationScreen(email: emailController!.text)));
+          .then((userchat) {
+        if (userchat != null) {
+          userchat.setName = fullnameController!.text;
+          userchat.setPhoto = "";
+          databaseProvider.UploadUser(userchat.toJSON());
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      VerificationScreen(email: emailController!.text)));
+        } else {
+          showAlertDialog(context, "SignUp faild. Please try again", () {
+            Navigator.of(context).pop();
+          });
+          setState(() {
+            _isLoaing = false;
+          });
+        }
       });
     }
   }

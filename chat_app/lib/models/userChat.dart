@@ -8,6 +8,14 @@ class UserChat {
   String? photo;
   UserChat({this.email, this.id, this.name, this.photo});
 
+  set setPhoto(String photo) {
+    this.photo = photo;
+  }
+
+  set setName(String name) {
+    this.name = name;
+  }
+
   Map<String, String> toJSON() {
     return {
       FirestoreContants.id: id!,

@@ -2,6 +2,7 @@ import 'package:chat_app/providers/authProvider.dart';
 import 'package:chat_app/providers/verifyProvider.dart';
 import 'package:chat_app/values/app_asstets.dart';
 import 'package:chat_app/screens/sign_in_screen.dart';
+import 'package:chat_app/widget/custom_dialog.dart';
 import 'package:chat_app/widget/loadingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
@@ -34,43 +35,19 @@ class _VerificationScreenState extends State<VerificationScreen> {
     super.dispose();
   }
 
-  showAlertDialog(BuildContext context, String text, VoidCallback onpress) {
-    // set up the button
-    Widget okButton = TextButton(
-      child: Text("OK"),
-      onPressed: onpress,
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Notification"),
-      content: Text(text),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   void Verify(VerifyProvider verifyProvider, BuildContext context) {
-    verifyProvider.checkEmailVerifyed();
-    if (verifyProvider.isVerify == true) {
-      showAlertDialog(context, "Verification successful", () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: ((context) => SignInScreen())));
-      });
-    } else {
-      showAlertDialog(context, "Verification failed", () {
-        Navigator.of(context).pop();
-      });
-    }
+    verifyProvider.checkEmailVerifyed().then((value) {
+      if (verifyProvider.isVerify == true) {
+        showAlertDialog(context, "Verification successful", () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: ((context) => SignInScreen())));
+        });
+      } else {
+        showAlertDialog(context, "Verification failed", () {
+          Navigator.of(context).pop();
+        });
+      }
+    });
   }
 
   @override
@@ -119,7 +96,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
           Padding(
             padding: const EdgeInsets.all(25.0),
             child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   Verify(verifyProvider, context);
                 },
                 style: ElevatedButton.styleFrom(

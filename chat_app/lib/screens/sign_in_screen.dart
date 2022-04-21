@@ -1,8 +1,10 @@
+import 'package:chat_app/models/userChat.dart';
 import 'package:chat_app/providers/authProvider.dart';
 import 'package:chat_app/screens/main_screen.dart';
 import 'package:chat_app/screens/sign_up_screen.dart';
 import 'package:chat_app/values/app_asstets.dart';
 import 'package:chat_app/values/shared_keys.dart';
+import 'package:chat_app/widget/custom_dialog.dart';
 import 'package:chat_app/widget/loadingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,10 +51,20 @@ class _SignInScreenState extends State<SignInScreen> {
       });
       authProvider.SignIn_WithEmailPasword(
               emailController!.text, passwordController!.text)
-          .then((val) {
-        authProvider.setShared(SharedKeys.email, emailController!.text);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => MainsScreen()));
+          .then((userchat) {
+        if (userchat != null) {
+          authProvider.setShared(SharedKeys.email, emailController!.text);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainsScreen()));
+        } else {
+          showAlertDialog(context, "Wrong email or password. Please try again",
+              () {
+            Navigator.of(context).pop();
+          });
+          setState(() {
+            _isLoaing = false;
+          });
+        }
       });
     }
   }
