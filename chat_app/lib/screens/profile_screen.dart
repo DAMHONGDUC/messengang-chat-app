@@ -1,6 +1,6 @@
 import 'package:chat_app/models/userChat.dart';
+import 'package:chat_app/providers/authProvider.dart';
 import 'package:chat_app/screens/sign_in_screen.dart';
-import 'package:chat_app/services/authService.dart';
 import 'package:chat_app/values/shared_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,34 +14,29 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final AuthServices authServices = new AuthServices();
-  String? email;
-
-  getUsername() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    setState(() {
-      email = prefs.getString(SharedKeys.email) ?? "nothing";
-    });
-  }
+  String email = "";
 
   @override
   void initState() {
-    getUsername();
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
+    email = authProvider.getShared(SharedKeys.email)!;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final AuthProvider authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
         body: SafeArea(
       child: Column(
         children: [
-          Text(email ?? "nothing"),
+          Text(email),
           Text('Username'),
           ElevatedButton(
               onPressed: () {
-                authServices.SignOut(email ?? "nothing");
+                authProvider.SignOut(email);
+                authProvider.setShared(SharedKeys.email, "");
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: ((context) => SignInScreen())));
               },

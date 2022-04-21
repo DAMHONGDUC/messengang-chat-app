@@ -1,4 +1,6 @@
 import 'package:chat_app/providers/authProvider.dart';
+import 'package:chat_app/providers/databaseProvider.dart';
+import 'package:chat_app/providers/verifyProvider.dart';
 import 'package:chat_app/screens/welcome_screen.dart';
 import 'package:chat_app/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,23 +29,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // return MultiProvider(
-        //   providers: [
-        //     ChangeNotifierProvider(
-        //         create: ((context) => AuthProvider(
-        //             prefs: prefs,
-        //             firebaseAuth: FirebaseAuth.instance,
-        //             firestore: firebaseFirestore)))
-        //   ],
-        //   child:
-        MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: lightThemeData(context),
-      darkTheme: darkThemeData(context),
-      home: WelcomeScreen(),
-    );
-    //);
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+              create: ((context) => AuthProvider(
+                  prefs: prefs,
+                  firebaseAuth: FirebaseAuth.instance,
+                  firestore: firebaseFirestore))),
+          ChangeNotifierProvider(create: (context) => DatabaseProvider()),
+          ChangeNotifierProvider(
+              create: (context) => VerifyProvider(
+                    firebaseAuth: FirebaseAuth.instance,
+                  ))
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Messengang Chat Application',
+          theme: lightThemeData(context),
+          darkTheme: darkThemeData(context),
+          home: WelcomeScreen(),
+        ));
   }
 }

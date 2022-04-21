@@ -1,5 +1,6 @@
 import 'package:chat_app/constants/firestore_constants.dart';
 import 'package:chat_app/models/userChat.dart';
+import 'package:chat_app/values/shared_keys.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum Status {
+  nothing,
   uninitialized,
   authenticated,
   authenticating,
@@ -20,7 +22,8 @@ class AuthProvider extends ChangeNotifier {
   final FirebaseFirestore firestore;
   final SharedPreferences prefs;
 
-  Status _status = Status.authenticating;
+  Status _status = Status.nothing;
+
   Status get status => _status;
 
   AuthProvider(
@@ -28,22 +31,35 @@ class AuthProvider extends ChangeNotifier {
       required this.firebaseAuth,
       required this.firestore});
 
-  String? getUserFirebaseID() {
-    return prefs.getString(FirestoreContants.id);
+  String? getShared(String sharekey) {
+    return prefs.getString(sharekey);
+  }
+
+  Future setShared(String sharekey, String value) async {
+    await prefs.setString(SharedKeys.email, value);
+  }
+
+  Future removeShared(String sharekey) async {
+    await prefs.remove(sharekey);
   }
 
   Future isLogIn() async {
-    // code
+    if (firebaseAuth.currentUser != null) {
+      return true;
+    } else
+      return false;
   }
 
-  UserChat? _userFromFirebase(User user) {
+  UserChat? _userFromFirebase(User? user) {
     return user != null ? UserChat(id: user.uid, email: user.email) : null;
   }
 
-  Future SignIn_WithEmailPasword(String email, String password) async {
-    _status = Status.authenticating;
-    notifyListeners();
+  UserChat? currUser() {
+    User? user = firebaseAuth.currentUser;
+    return UserChat(id: user!.uid, email: user.email);
+  }
 
+  Future SignIn_WithEmailPasword(String email, String password) async {
     try {
       UserCredential result = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -74,8 +90,6 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future SignOut(String email) async {
-    _status = Status.uninitialized;
-
     try {
       return await firebaseAuth.signOut();
     } catch (e) {

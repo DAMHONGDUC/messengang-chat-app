@@ -1,7 +1,8 @@
 import 'package:chat_app/models/userChat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
 
-class DatabaseMethods {
+class DatabaseProvider extends ChangeNotifier {
   UserChat? getUserByUsername(String username) {
     FirebaseFirestore.instance
         .collection("users")

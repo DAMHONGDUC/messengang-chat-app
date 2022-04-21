@@ -1,0 +1,7 @@
+hongduc001h@gmail.com
+
+12345678
+
+chưa làm reset password
+TH đăng nhập ko thành công
+TH verify thì sau 1 lúc m( từ lúc check link trên mail) mới dc (xử lí animation)
