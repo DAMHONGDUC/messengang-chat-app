@@ -71,3 +71,20 @@ List chatsData = [
     isActive: false,
   ),
 ];
+
+List searchData = [
+  Chat(
+    name: "B Ray",
+    latestMess: "Tầm 2h chiều rảnh thì ra cafe với anh",
+    image: "assets/images/3.png",
+    time: "11:05",
+    isActive: false,
+  ),
+  Chat(
+    name: "H\$ Robe",
+    latestMess: "Tao là tao luôn tự tin ở nơi đông người",
+    image: "assets/images/4.png",
+    time: "13:01",
+    isActive: true,
+  ),
+];

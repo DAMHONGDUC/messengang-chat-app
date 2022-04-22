@@ -1,4 +1,5 @@
 import 'package:chat_app/providers/authProvider.dart';
+import 'package:chat_app/providers/chatProvider.dart';
 import 'package:chat_app/providers/databaseProvider.dart';
 import 'package:chat_app/providers/verifyProvider.dart';
 import 'package:chat_app/screens/welcome_screen.dart';
@@ -23,6 +24,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final SharedPreferences prefs;
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   MyApp({Key? key, required this.prefs}) : super(key: key);
@@ -34,13 +36,16 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
               create: ((context) => AuthProvider(
                   prefs: prefs,
-                  firebaseAuth: FirebaseAuth.instance,
+                  firebaseAuth: firebaseAuth,
                   firestore: firebaseFirestore))),
-          ChangeNotifierProvider(create: (context) => DatabaseProvider()),
+          ChangeNotifierProvider(
+              create: (context) =>
+                  DatabaseProvider(firestore: firebaseFirestore)),
           ChangeNotifierProvider(
               create: (context) => VerifyProvider(
-                    firebaseAuth: FirebaseAuth.instance,
-                  ))
+                    firebaseAuth: firebaseAuth,
+                  )),
+          ChangeNotifierProvider(create: (context) => ChatProvider()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

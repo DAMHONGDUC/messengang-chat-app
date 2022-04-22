@@ -1,5 +1,6 @@
 import 'package:chat_app/models/userChat.dart';
 import 'package:chat_app/providers/authProvider.dart';
+import 'package:chat_app/providers/databaseProvider.dart';
 import 'package:chat_app/screens/call_screen.dart';
 import 'package:chat_app/screens/chats_screen.dart';
 import 'package:chat_app/values/app_colors.dart';
@@ -35,8 +36,6 @@ class _MainsScreenState extends State<MainsScreen> {
     return Scaffold(
       appBar: buildAppBar(),
       body: screen[_selectedIndex],
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {}, child: Icon(Icons.person_add_alt_1)),
       bottomNavigationBar: buildBottomNavigatorBar(),
     );
   }
@@ -67,15 +66,6 @@ class _MainsScreenState extends State<MainsScreen> {
       elevation: 0,
       title: Text('Messengang Chats'),
       automaticallyImplyLeading: false,
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.search,
-            size: 28,
-          ),
-        ),
-      ],
     );
   }
 }
