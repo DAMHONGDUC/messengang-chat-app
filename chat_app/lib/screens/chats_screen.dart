@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'package:chat_app/models/chat.dart';
-import 'package:chat_app/providers/chatProvider.dart';
+import 'package:chat_app/providers/databaseProvider.dart';
+
 import 'package:chat_app/screens/message_screen.dart';
 import 'package:chat_app/screens/search_screen.dart';
 import 'package:chat_app/values/app_asstets.dart';
 import 'package:chat_app/values/app_colors.dart';
 import 'package:chat_app/widget/custom_outline_button.dart';
 import 'package:chat_app/widget/search_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -22,11 +24,7 @@ class ChatsScreen extends StatefulWidget {
 class _ChatsScreenState extends State<ChatsScreen> {
   @override
   Widget build(BuildContext context) {
-    final ChatProvider chatProvider = Provider.of<ChatProvider>(context);
-
-    return chatProvider.isSearch
-        ? ListChat(data: searchData)
-        : ListChat(data: chatsData);
+    return ListChat(data: chatsData);
   }
 }
 
@@ -44,11 +42,11 @@ class ListChat extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => SearchScreen()));
           },
           child: Container(
-            height: 60,
+            height: 68,
             width: double.infinity,
             color: AppColor.kPrimaryColor,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: Container(
                   decoration: BoxDecoration(
                       color: Color.fromARGB(255, 255, 255, 255),

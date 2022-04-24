@@ -1,4 +1,3 @@
-import 'package:chat_app/providers/chatProvider.dart';
 import 'package:chat_app/values/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +9,6 @@ class SearchTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ChatProvider chatProvider = Provider.of<ChatProvider>(context);
-
     return Container(
       color: AppColor.kPrimaryColor,
       child: Padding(
@@ -21,6 +18,9 @@ class SearchTextfield extends StatelessWidget {
               color: Color.fromARGB(255, 255, 255, 255),
               borderRadius: BorderRadius.all(Radius.circular(30))),
           child: TextField(
+            onChanged: (text) {
+              print('First text field: $text');
+            },
             autofocus: true,
             onTap: () {},
             textAlignVertical: TextAlignVertical.center,

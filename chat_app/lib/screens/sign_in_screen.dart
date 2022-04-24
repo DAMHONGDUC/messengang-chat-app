@@ -18,23 +18,16 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  TextEditingController? emailController;
-  TextEditingController? passwordController;
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoaing = false;
   bool _obscureText = true;
 
   @override
-  void initState() {
-    emailController = new TextEditingController();
-    passwordController = new TextEditingController();
-    super.initState();
-  }
-
-  @override
   void dispose() {
-    emailController!.dispose();
-    passwordController!.dispose();
+    emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -50,10 +43,10 @@ class _SignInScreenState extends State<SignInScreen> {
         _isLoaing = true;
       });
       authProvider.SignIn_WithEmailPasword(
-              emailController!.text, passwordController!.text)
+              emailController.text, passwordController.text)
           .then((userchat) {
         if (userchat != null) {
-          authProvider.setShared(SharedKeys.email, emailController!.text);
+          authProvider.setShared(SharedKeys.email, emailController.text);
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => MainsScreen()));
         } else {

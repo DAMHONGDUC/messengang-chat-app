@@ -12,10 +12,10 @@ class DatabaseProvider extends ChangeNotifier {
     return user != null ? UserChat(id: user.uid, email: user.email) : null;
   }
 
-  getUserByEmail(String email) async {
+  Future<QuerySnapshot> getUserByName(String name) async {
     return await firestore
         .collection("users")
-        .where("email", isEqualTo: email)
+        .where("name", isGreaterThanOrEqualTo: name)
         .get();
   }
 

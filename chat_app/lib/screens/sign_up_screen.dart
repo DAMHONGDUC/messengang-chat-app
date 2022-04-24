@@ -18,10 +18,11 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController? emailController;
-  TextEditingController? fullnameController;
-  TextEditingController? passwordController;
-  TextEditingController? repeatPasswordController;
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController fullnameController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
+  final TextEditingController repeatPasswordController =
+      new TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   bool _isLoaing = false;
@@ -29,20 +30,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _obscurePassword = true;
 
   @override
-  void initState() {
-    emailController = new TextEditingController();
-    fullnameController = new TextEditingController();
-    passwordController = new TextEditingController();
-    repeatPasswordController = new TextEditingController();
-    super.initState();
-  }
-
-  @override
   void dispose() {
-    emailController!.dispose();
-    fullnameController!.dispose();
-    passwordController!.dispose();
-    repeatPasswordController!.dispose();
+    emailController.dispose();
+    fullnameController.dispose();
+    passwordController.dispose();
+    repeatPasswordController.dispose();
     super.dispose();
   }
 
@@ -54,17 +46,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
 
       authProvider.SignUp_WithEmailPasword(
-              emailController!.text, passwordController!.text)
+              emailController.text, passwordController.text)
           .then((userchat) {
         if (userchat != null) {
-          userchat.setName = fullnameController!.text;
+          userchat.setName = fullnameController.text;
           userchat.setPhoto = "";
           databaseProvider.UploadUser(userchat.toJSON());
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      VerificationScreen(email: emailController!.text)));
+                      VerificationScreen(email: emailController.text)));
         } else {
           showAlertDialog(context, "SignUp faild. Please try again", () {
             Navigator.of(context).pop();
@@ -193,7 +185,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               TextFormField(
                                 obscureText: _obscureRepeatPassword,
                                 validator: (val) {
-                                  return passwordController!.text == val
+                                  return passwordController.text == val
                                       ? null
                                       : "The password not match";
                                 },
