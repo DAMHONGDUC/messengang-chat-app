@@ -1,8 +1,9 @@
+import 'package:chat_app/models/listchat.dart';
 import 'package:chat_app/models/userChat.dart';
 import 'package:chat_app/providers/authProvider.dart';
 import 'package:chat_app/providers/databaseProvider.dart';
 import 'package:chat_app/screens/call_screen.dart';
-import 'package:chat_app/screens/chats_screen.dart';
+import 'package:chat_app/screens/listchat_screen.dart';
 import 'package:chat_app/values/app_colors.dart';
 import 'package:chat_app/screens/message_screen.dart';
 import 'package:chat_app/screens/people_screen.dart';
@@ -20,7 +21,7 @@ class MainsScreen extends StatefulWidget {
 class _MainsScreenState extends State<MainsScreen> {
   int _selectedIndex = 0;
   final screen = [
-    ChatsScreen(),
+    ListChat(data: chatsData),
     PeopleScreen(),
     CallScreen(),
     ProfileScreen(),

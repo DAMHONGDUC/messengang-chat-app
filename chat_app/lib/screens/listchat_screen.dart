@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:ffi';
-import 'package:chat_app/models/chat.dart';
+import 'package:chat_app/models/listchat.dart';
 import 'package:chat_app/providers/databaseProvider.dart';
 
 import 'package:chat_app/screens/message_screen.dart';
@@ -13,20 +13,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-
-class ChatsScreen extends StatefulWidget {
-  const ChatsScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ChatsScreen> createState() => _ChatsScreenState();
-}
-
-class _ChatsScreenState extends State<ChatsScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return ListChat(data: chatsData);
-  }
-}
 
 class ListChat extends StatelessWidget {
   final List<dynamic> data;

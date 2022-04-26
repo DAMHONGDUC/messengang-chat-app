@@ -1,9 +1,9 @@
-import 'package:chat_app/models/chat.dart';
+import 'package:chat_app/models/listchat.dart';
 import 'package:chat_app/models/userChat.dart';
 import 'package:chat_app/providers/databaseProvider.dart';
 import 'package:chat_app/screens/message_screen.dart';
 import 'package:chat_app/values/app_colors.dart';
-import 'package:chat_app/widget/list_user_result.dart';
+import 'package:chat_app/widget/list_user_result_search.dart';
 import 'package:chat_app/widget/loadingWidget.dart';
 import 'package:chat_app/widget/search_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -35,6 +35,25 @@ class _SearchScreenState extends State<SearchScreen> {
     super.dispose();
   }
 
+  // handle when click to search button
+  void Search(DatabaseProvider databaseProvider) {
+    setState(() {
+      isExecuting = true;
+    });
+    databaseProvider.getUserByName(searchController.text).then((value) {
+      if (value != null) {
+        searchSnapshot = value;
+
+        setState(() {
+          isExecuted = true;
+        });
+        setState(() {
+          isExecuting = false;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     DatabaseProvider databaseProvider = Provider.of<DatabaseProvider>(context);
@@ -49,16 +68,16 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Icon(Icons.clear),
       ),
       appBar: AppBar(
-        backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.black,
           ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
+        elevation: 0,
+        title: Text('Messengang Chats'),
       ),
       body: Column(
         children: [
@@ -89,23 +108,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           color: Colors.black.withOpacity(1),
                         ),
                         onTap: () {
-                          setState(() {
-                            isExecuting = true;
-                          });
-                          databaseProvider
-                              .getUserByName(searchController.text)
-                              .then((value) {
-                            if (value != null) {
-                              searchSnapshot = value;
-
-                              setState(() {
-                                isExecuted = true;
-                              });
-                              setState(() {
-                                isExecuting = false;
-                              });
-                            }
-                          });
+                          Search(databaseProvider);
                         },
                       ),
                       contentPadding: EdgeInsets.only(left: 20.0),

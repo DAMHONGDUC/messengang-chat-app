@@ -1,7 +1,7 @@
 import 'package:chat_app/models/userChat.dart';
 import 'package:chat_app/providers/authProvider.dart';
 import 'package:chat_app/screens/sign_in_screen.dart';
-import 'package:chat_app/values/shared_keys.dart';
+import 'package:chat_app/values/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,7 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     AuthProvider authProvider =
         Provider.of<AuthProvider>(context, listen: false);
-    email = authProvider.getShared(SharedKeys.email)!;
+    // email = authProvider.getShared(SessionManager.email)!;
     super.initState();
   }
 
@@ -36,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ElevatedButton(
               onPressed: () {
                 authProvider.SignOut(email);
-                authProvider.setShared(SharedKeys.email, "");
+                //authProvider.setShared(SessionManager.email, "");
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: ((context) => SignInScreen())));
               },

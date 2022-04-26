@@ -3,7 +3,7 @@ import 'package:chat_app/providers/authProvider.dart';
 import 'package:chat_app/screens/main_screen.dart';
 import 'package:chat_app/screens/sign_up_screen.dart';
 import 'package:chat_app/values/app_asstets.dart';
-import 'package:chat_app/values/shared_keys.dart';
+import 'package:chat_app/values/session_manager.dart';
 import 'package:chat_app/widget/custom_dialog.dart';
 import 'package:chat_app/widget/loadingWidget.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +46,12 @@ class _SignInScreenState extends State<SignInScreen> {
               emailController.text, passwordController.text)
           .then((userchat) {
         if (userchat != null) {
-          authProvider.setShared(SharedKeys.email, emailController.text);
+          // lưu user hiện tại vào
+          SessionManager prefs = SessionManager();
+          prefs.setCurrUser(userchat.email.toString(), userchat.id.toString(),
+              userchat.name.toString(), userchat.photo.toString());
+
+          // điều hướng qua main
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => MainsScreen()));
         } else {

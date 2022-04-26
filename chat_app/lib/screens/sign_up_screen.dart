@@ -51,7 +51,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (userchat != null) {
           userchat.setName = fullnameController.text;
           userchat.setPhoto = "";
-          databaseProvider.UploadUser(userchat.toJSON());
+          databaseProvider.UploadUser(
+              userchat.toJSON(), userchat.id.toString());
           Navigator.push(
               context,
               MaterialPageRoute(

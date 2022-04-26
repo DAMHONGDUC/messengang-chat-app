@@ -1,0 +1,4 @@
+- chưa làm reset password
+- TH verify thì sau 1 lúc m( từ lúc check link trên mail) mới dc (xử lí animation)
+- chưa xử lí lưu + load ảnh
+

@@ -1,5 +1,5 @@
-import 'package:chat_app/models/chat.dart';
-import 'package:chat_app/models/chat_message.dart';
+import 'package:chat_app/models/listchat.dart';
+import 'package:chat_app/models/message.dart';
 import 'package:chat_app/widget/chat_inputfield.dart';
 import 'package:chat_app/values/app_colors.dart';
 import 'package:flutter/material.dart';
