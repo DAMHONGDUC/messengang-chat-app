@@ -1,12 +1,21 @@
 import 'package:chat_app/models/listchat.dart';
 import 'package:chat_app/models/message.dart';
+import 'package:chat_app/models/userChat.dart';
 import 'package:chat_app/widget/chat_inputfield.dart';
 import 'package:chat_app/values/app_colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Message extends StatelessWidget {
-  final Chat chat;
-  const Message({Key? key, required this.chat}) : super(key: key);
+  final List<ChatMessage> listMessageData;
+  final String roomID;
+  final UserChat userChat;
+  const Message(
+      {Key? key,
+      required this.listMessageData,
+      required this.roomID,
+      required this.userChat})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,20 +28,20 @@ class Message extends StatelessWidget {
   SafeArea buildBody(context) {
     return SafeArea(
         child: Container(
-      color: AppColor.kContentColorLightTheme,
+      color: Colors.grey.withOpacity(0.00),
       child: Column(
         children: [
           Expanded(
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
-                  itemCount: demoChatMessages.length,
+                  itemCount: listMessageData.length,
                   itemBuilder: ((context, index) {
-                    return demoChatMessages[index].isSender
+                    return listMessageData[index].isSender
                         ? itemMessage_Sender(
-                            message: demoChatMessages[index].text,
+                            message: listMessageData[index].text,
                           )
                         : itemMessage(
-                            message: demoChatMessages[index].text,
+                            message: listMessageData[index].text,
                           );
                   }))),
           chatsInputField(),
@@ -43,9 +52,11 @@ class Message extends StatelessWidget {
 
   AppBar buildAppbar(BuildContext context) {
     return AppBar(
+      leadingWidth: 40,
+      elevation: 2,
       leading: IconButton(
         icon: Icon(
-          Icons.arrow_back_ios,
+          Icons.arrow_back,
         ),
         onPressed: () {
           Navigator.pop(context);
@@ -54,7 +65,7 @@ class Message extends StatelessWidget {
       title: Row(
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage(chat.image),
+            backgroundImage: AssetImage("assets/images/1.png"),
           ),
           SizedBox(
             width: 10,
@@ -63,8 +74,11 @@ class Message extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                chat.name,
-                style: TextStyle(fontSize: 14),
+                userChat.name!,
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black.withOpacity(0.65),
+                    fontWeight: FontWeight.bold),
               ),
               Text(
                 "Active 3m ago",
@@ -77,15 +91,14 @@ class Message extends StatelessWidget {
       actions: [
         IconButton(
           icon: Icon(Icons.call),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () {},
         ),
         IconButton(
           icon: Icon(Icons.videocam),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () {},
+        ),
+        SizedBox(
+          width: 7,
         ),
       ],
     );
@@ -109,7 +122,7 @@ class itemMessage_Sender extends StatelessWidget {
                   color: Colors.blue,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(11.0),
                 child: Text(
                   message,
                   style: TextStyle(color: Colors.white, fontSize: 15),
@@ -149,13 +162,13 @@ class itemMessage extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(left: 10),
           decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.4),
+              color: Colors.grey.withOpacity(0.3),
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(11.0),
             child: Text(
               message,
-              style: TextStyle(color: Colors.white, fontSize: 15),
+              style: TextStyle(color: Colors.black, fontSize: 15),
             ),
           ),
         ),

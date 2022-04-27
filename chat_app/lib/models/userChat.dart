@@ -18,10 +18,10 @@ class UserChat {
 
   Map<String, String> toJSON() {
     return {
-      FirestoreContants.idUser: id!,
-      FirestoreContants.emailUser: email!,
-      FirestoreContants.nameUser: name!,
-      FirestoreContants.photoUser: photo!,
+      FirestoreContants.id_user: id!,
+      FirestoreContants.email_user: email!,
+      FirestoreContants.name_user: name!,
+      FirestoreContants.photo_user: photo!,
     };
   }
 
@@ -32,16 +32,16 @@ class UserChat {
     String photo1 = "";
 
     try {
-      email1 = doc.get(FirestoreContants.emailUser);
+      email1 = doc.get(FirestoreContants.email_user);
     } catch (e) {}
     try {
-      id1 = doc.get(FirestoreContants.idUser);
+      id1 = doc.get(FirestoreContants.id_user);
     } catch (e) {}
     try {
-      name1 = doc.get(FirestoreContants.nameUser);
+      name1 = doc.get(FirestoreContants.name_user);
     } catch (e) {}
     try {
-      photo1 = doc.get(FirestoreContants.photoUser);
+      photo1 = doc.get(FirestoreContants.photo_user);
     } catch (e) {}
 
     return UserChat(email: email1, id: id1, name: name1, photo: photo1);

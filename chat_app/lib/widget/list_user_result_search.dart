@@ -1,5 +1,6 @@
 import 'package:chat_app/constants/firestore_constants.dart';
 import 'package:chat_app/models/listchat.dart';
+import 'package:chat_app/models/message.dart';
 import 'package:chat_app/models/userChat.dart';
 import 'package:chat_app/providers/databaseProvider.dart';
 import 'package:chat_app/screens/listchat_screen.dart';
@@ -25,13 +26,13 @@ class ListResult extends StatelessWidget {
             itemBuilder: ((context, index) {
               return rowUser(
                 userchat: UserChat(
-                  email:
-                      SnapshotData.docs[index].get(FirestoreContants.emailUser),
-                  id: SnapshotData.docs[index].get(FirestoreContants.idUser),
+                  email: SnapshotData.docs[index]
+                      .get(FirestoreContants.email_user),
+                  id: SnapshotData.docs[index].get(FirestoreContants.id_user),
                   name:
-                      SnapshotData.docs[index].get(FirestoreContants.nameUser),
-                  photo:
-                      SnapshotData.docs[index].get(FirestoreContants.photoUser),
+                      SnapshotData.docs[index].get(FirestoreContants.name_user),
+                  photo: SnapshotData.docs[index]
+                      .get(FirestoreContants.photo_user),
                 ),
               );
             })),
@@ -76,8 +77,8 @@ class rowUser extends StatelessWidget {
                   userchat.id.toString()
                 ];
                 Map<String, dynamic> mapRoom = {
-                  FirestoreContants.roomID: roomID,
-                  FirestoreContants.roomUserID: user,
+                  FirestoreContants.roomID_room: roomID,
+                  FirestoreContants.UserID_room: user,
                 };
                 databaseProvider.createChatRoom(roomID, mapRoom);
               } else {
@@ -85,11 +86,36 @@ class rowUser extends StatelessWidget {
                 // do nothing
                 print("we had this room before");
               }
-              // navigator to message screen
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Message(chat: chatsData[0])));
+              // get message in this room
+              databaseProvider
+                  .getMessageWithChatroomID(roomID)
+                  .then((SnapshotMessageData) {
+                // convert QuerySnapShot to List data
+                List<ChatMessage> messageData = [];
+                for (int i = 0; i < SnapshotMessageData.docs.length; i++) {
+                  String UserID_sent = SnapshotMessageData.docs[i]
+                      .get(FirestoreContants.UserID_message);
+
+                  bool isSender = false;
+
+                  if (UserID_sent == currUser.id) isSender = true;
+                  messageData.add(ChatMessage(
+                      text: SnapshotMessageData.docs[i]
+                          .get(FirestoreContants.text_message),
+                      messageType: ChatMessageType.text,
+                      messageStatus: MessageStatus.viewed,
+                      isSender: isSender));
+                }
+                // navigator to message screen
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Message(
+                              listMessageData: messageData,
+                              userChat: userchat,
+                              roomID: roomID,
+                            )));
+              });
             });
           } else {
             print("get curr user return null");

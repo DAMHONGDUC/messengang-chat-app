@@ -87,12 +87,12 @@ class rowChat extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Message(
-                      chat: chat,
-                    )));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => Message(
+        //               chat: chat,
+        //             )));
       },
       child: ListTile(
         leading: chat.isActive

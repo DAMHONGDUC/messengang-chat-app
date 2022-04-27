@@ -15,15 +15,15 @@ class DatabaseProvider extends ChangeNotifier {
 
   Future<QuerySnapshot> getUserByName(String name) async {
     return await firestore
-        .collection(FirestoreContants.UserCollection)
-        .where(FirestoreContants.nameUser, isGreaterThanOrEqualTo: name)
+        .collection(FirestoreContants.userCollection)
+        .where(FirestoreContants.name_user, isGreaterThanOrEqualTo: name)
         .get();
   }
 
   // up load user with a custom documentID
   Future<void> UploadUser(userMap, String documentID) async {
     await firestore
-        .collection(FirestoreContants.UserCollection)
+        .collection(FirestoreContants.userCollection)
         .doc(documentID)
         .set(userMap);
   }
@@ -37,7 +37,14 @@ class DatabaseProvider extends ChangeNotifier {
   Future<QuerySnapshot> getChatRoom(String chatRoomID) async {
     return await firestore
         .collection(FirestoreContants.roomCollection)
-        .where(FirestoreContants.roomID, isEqualTo: chatRoomID)
+        .where(FirestoreContants.roomID_room, isEqualTo: chatRoomID)
+        .get();
+  }
+
+  Future<QuerySnapshot> getMessageWithChatroomID(String chatRoomID) async {
+    return await firestore
+        .collection(FirestoreContants.messageCollection)
+        .where(FirestoreContants.roomID_room, isEqualTo: chatRoomID)
         .get();
   }
 
