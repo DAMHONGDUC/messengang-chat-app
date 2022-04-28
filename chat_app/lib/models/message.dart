@@ -15,6 +15,7 @@ class ChatMessage {
   });
 }
 
+
 // List demoChatMessages = [
 //   ChatMessage(
 //     text: "Hi Sajol",

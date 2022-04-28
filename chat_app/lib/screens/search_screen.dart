@@ -3,7 +3,7 @@ import 'package:chat_app/models/userChat.dart';
 import 'package:chat_app/providers/databaseProvider.dart';
 import 'package:chat_app/screens/message_screen.dart';
 import 'package:chat_app/values/app_colors.dart';
-import 'package:chat_app/widget/list_user_result_search.dart';
+import 'package:chat_app/screens/list_user_result_search.dart';
 import 'package:chat_app/widget/loadingWidget.dart';
 import 'package:chat_app/widget/search_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

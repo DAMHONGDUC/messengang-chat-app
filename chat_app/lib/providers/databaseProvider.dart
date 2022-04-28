@@ -1,4 +1,5 @@
 import 'package:chat_app/constants/firestore_constants.dart';
+import 'package:chat_app/models/message.dart';
 import 'package:chat_app/models/userChat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,12 +42,36 @@ class DatabaseProvider extends ChangeNotifier {
         .get();
   }
 
-  Future<QuerySnapshot> getMessageWithChatroomID(String chatRoomID) async {
+  getMessageWithChatroomID(String chatRoomID) async {
     return await firestore
         .collection(FirestoreContants.messageCollection)
         .where(FirestoreContants.roomID_room, isEqualTo: chatRoomID)
-        .get();
+        .snapshots();
   }
+
+  // Stream<List<ChatMessage>> getMessageWithChatroomID(String chatRoomID, String currUserID)  {
+
+  //    Stream<QuerySnapshot> stream =
+  //     firestore.collection(FirestoreContants.messageCollection)
+  //     .where(FirestoreContants.roomID_room, isEqualTo: chatRoomID)
+  //     .snapshots();
+
+  //   return stream.map(
+  //     (qShot) => qShot.docs.map(
+  //       (doc) {
+  //         String UserID_sent =
+  //             doc.get(FirestoreContants.UserID_message);
+
+  //         bool isSender = false;
+  //         if (UserID_sent == currUserID) isSender = true;
+  //         return ChatMessage(text: doc.get(FirestoreContants.text_message),
+  //       messageType: ChatMessageType.text,
+  //       messageStatus: MessageStatus.viewed,
+  //       isSender: isSender);
+  //       }
+  //     ).toList()
+  //   );
+  // }
 
   // Future<String> downloadURL(String imageName) async {
   //   return await firestore.re;
