@@ -8,10 +8,24 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+enum Status {
+  initialized,
+  uninitilized,
+  authenticating,
+  authenticated,
+  authenticateError,
+  creatingAccount,
+  createdAccount,
+  creatingAccountError
+}
+
 class AuthProvider extends ChangeNotifier {
   final FirebaseAuth firebaseAuth;
   final FirebaseFirestore firestore;
   final SharedPreferences prefs;
+
+  Status _status = Status.uninitilized;
+  Status get status => _status;
 
   AuthProvider(
       {required this.prefs,
@@ -36,24 +50,34 @@ class AuthProvider extends ChangeNotifier {
 
   Future<UserChat?> SignIn_WithEmailPasword(
       String email, String password) async {
+    // _status = Status.authenticating;
+    // notifyListeners();
+
     try {
       UserCredential result = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       User? firebaseUser = result.user;
       return _userFromFirebase(firebaseUser!);
     } catch (e) {
+      // _status = Status.authenticateError;
+      // notifyListeners();
       print(e.toString());
     }
   }
 
   Future<UserChat?> SignUp_WithEmailPasword(
       String email, String password) async {
+    // _status = Status.creatingAccount;
+    // notifyListeners();
+
     try {
       UserCredential result = await firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       User? firebaseUser = result.user;
       return _userFromFirebase(firebaseUser!);
     } catch (e) {
+      // _status = Status.creatingAccountError;
+      // notifyListeners();
       print(e.toString());
     }
   }

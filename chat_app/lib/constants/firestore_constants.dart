@@ -11,6 +11,10 @@ class FirestoreContants {
 
   static const messageCollection = "message";
   static const roomID_message = "roomID";
-  static const UserID_message = "userID";
+  static const FromUser_message = "FromUser";
   static const text_message = "text";
+  static const time_message = "time";
+  static const type_message = "type";
+  static const type_message_text = "text";
+  static const type_message_image = "image";
 }

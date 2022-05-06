@@ -1,4 +1,5 @@
 import 'package:chat_app/providers/authProvider.dart';
+import 'package:chat_app/providers/chatProvider.dart';
 import 'package:chat_app/providers/databaseProvider.dart';
 import 'package:chat_app/providers/verifyProvider.dart';
 import 'package:chat_app/screens/welcome_screen.dart';
@@ -43,6 +44,10 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
               create: (context) => VerifyProvider(
                     firebaseAuth: firebaseAuth,
+                  )),
+          ChangeNotifierProvider(
+              create: (context) => ChatProvider(
+                    firestore: firebaseFirestore,
                   )),
         ],
         child: MaterialApp(

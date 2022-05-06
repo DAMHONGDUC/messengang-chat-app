@@ -1,6 +1,6 @@
 import 'package:chat_app/constants/firestore_constants.dart';
 import 'package:chat_app/models/listchat.dart';
-import 'package:chat_app/models/message.dart';
+import 'package:chat_app/models/chat_message.dart';
 import 'package:chat_app/models/userChat.dart';
 import 'package:chat_app/providers/databaseProvider.dart';
 import 'package:chat_app/screens/listchat_screen.dart';

@@ -46,12 +46,12 @@ class _SignInScreenState extends State<SignInScreen> {
               emailController.text, passwordController.text)
           .then((userchat) {
         if (userchat != null) {
-          // lưu user hiện tại vào
+          // save this current user
           SessionManager prefs = SessionManager();
           prefs.setCurrUser(userchat.email.toString(), userchat.id.toString(),
               userchat.name.toString(), userchat.photo.toString());
 
-          // điều hướng qua main
+          // navigator to Main
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => MainsScreen()));
         } else {
