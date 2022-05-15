@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:chat_app/constants/firestore_constants.dart';
 import 'package:chat_app/models/listchat.dart';
 import 'package:chat_app/models/chat_message.dart';
@@ -10,6 +12,10 @@ import 'package:chat_app/widget/loadingWidget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/scheduler.dart';
 
 class Message extends StatefulWidget {
   final String roomID;
@@ -28,11 +34,60 @@ class Message extends StatefulWidget {
 
 class _MessageState extends State<Message> {
   final chatInputController = new TextEditingController();
+  bool haveText = false;
+  final ScrollController _scrollController = new ScrollController();
+  bool need_sendAnimation = false;
 
   @override
   void dispose() {
     chatInputController.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  // handle send message
+  void handleSend_message(ChatProvider chatProvider) {
+    if (haveText) {
+      setState(() {
+        need_sendAnimation = true;
+      });
+
+      ChatMessage chatMessage = new ChatMessage(
+        roomID: widget.roomID,
+        FromUser: widget.currUser.id.toString(),
+        text: chatInputController.text,
+        type: FirestoreContants.type_message_text,
+        time: DateTime.now().toString(),
+      );
+      chatProvider.sendChatMessage(chatMessage, widget.roomID).then((value) {
+        chatInputController.text = "";
+        // show send animation
+        _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+        stop_sendAnimation();
+      });
+    } else {
+      Fluttertoast.showToast(
+          msg: 'Nothing to send', backgroundColor: Colors.grey);
+    }
+  }
+
+  // stop send animation for receive message after 300 milliseconds
+  // becase we need 300 milliseconds to show animation send
+  void stop_sendAnimation() async {
+    await Future.delayed(const Duration(milliseconds: 300), () {
+      setState(() {
+        need_sendAnimation = false;
+      });
+    });
+  }
+
+  void autoScroll_toEnd() {
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    } else {
+      setState(() => null);
+    }
   }
 
   // chat input
@@ -70,7 +125,14 @@ class _MessageState extends State<Message> {
                   Expanded(
                       child: TextField(
                     onChanged: (text) {
-                      print(chatInputController.text);
+                      if (text.length > 0)
+                        setState(() {
+                          haveText = true;
+                        });
+                      else
+                        setState(() {
+                          haveText = false;
+                        });
                     },
                     controller: chatInputController,
                     decoration: InputDecoration(
@@ -98,19 +160,13 @@ class _MessageState extends State<Message> {
                   ),
                   InkWell(
                       onTap: () {
-                        // handle send message
-                        ChatMessage chatMessage = new ChatMessage(
-                          roomID: widget.roomID,
-                          FromUser: widget.currUser.id.toString(),
-                          text: chatInputController.text,
-                          type: FirestoreContants.type_message_text,
-                          time: DateTime.now().toString(),
-                        );
-                        chatProvider.sendChatMessage(chatMessage);
+                        handleSend_message(chatProvider);
                       },
                       child: Icon(
                         Icons.send,
-                        color: Color.fromARGB(255, 0, 127, 232),
+                        color: haveText
+                            ? Color.fromARGB(255, 0, 127, 232)
+                            : Colors.grey,
                         size: 20,
                       )),
                   SizedBox(
@@ -137,6 +193,7 @@ class _MessageState extends State<Message> {
           // if we got data
           if (snapshot.data!.docs.length == 0) {
             // if they haven't sent message
+
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -164,6 +221,11 @@ class _MessageState extends State<Message> {
             );
           } else {
             // if they have sent message
+            WidgetsBinding.instance?.addPostFrameCallback((_) {
+              // when we sen message we need the send animation,
+              // but when we got the receive message we don't need animation
+              if (!need_sendAnimation) autoScroll_toEnd();
+            });
 
             // convert QuerySnapShot to List data
             List<ChatMessage> messageData = [];
@@ -182,6 +244,7 @@ class _MessageState extends State<Message> {
             }
 
             return ListView.builder(
+                controller: _scrollController,
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
                   return messageData[index].FromUser == widget.currUser.id
@@ -285,6 +348,7 @@ class _MessageState extends State<Message> {
 // item message (sender)
 class itemMessage_Sender extends StatelessWidget {
   final String message;
+
   const itemMessage_Sender({Key? key, required this.message}) : super(key: key);
 
   @override

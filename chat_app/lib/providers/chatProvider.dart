@@ -11,14 +11,11 @@ class ChatProvider extends ChangeNotifier {
   Stream<QuerySnapshot> getMessageWithChatroomID(String roomID) {
     return FirebaseFirestore.instance
         .collection(FirestoreContants.messageCollection)
-        .where(FirestoreContants.roomID_room, isEqualTo: roomID)
+        .where(FirestoreContants.roomID_message, isEqualTo: roomID)
         .snapshots();
   }
 
-  Future<void> sendChatMessage(ChatMessage chatMessage) async {
-    // await firestore
-    //     .collection(FirestoreContants.messageCollection)
-    //     .add(messageMap);
+  Future<void> sendChatMessage(ChatMessage chatMessage, String roomID) async {
     await firestore
         .collection(FirestoreContants.messageCollection)
         .doc(DateTime.now().millisecondsSinceEpoch.toString())
