@@ -36,7 +36,7 @@ class _MessageState extends State<Message> {
   final chatInputController = new TextEditingController();
   bool haveText = false;
   final ScrollController _scrollController = new ScrollController();
-  bool need_sendAnimation = false;
+  bool needJump_toEnd = false;
 
   @override
   void dispose() {
@@ -49,7 +49,7 @@ class _MessageState extends State<Message> {
   void handleSend_message(ChatProvider chatProvider) {
     if (haveText) {
       setState(() {
-        need_sendAnimation = true;
+        needJump_toEnd = true;
       });
 
       ChatMessage chatMessage = new ChatMessage(
@@ -65,6 +65,9 @@ class _MessageState extends State<Message> {
         _scrollController.animateTo(_scrollController.position.maxScrollExtent,
             duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
         stop_sendAnimation();
+        setState(() {
+          haveText = false;
+        });
       });
     } else {
       Fluttertoast.showToast(
@@ -77,7 +80,7 @@ class _MessageState extends State<Message> {
   void stop_sendAnimation() async {
     await Future.delayed(const Duration(milliseconds: 300), () {
       setState(() {
-        need_sendAnimation = false;
+        needJump_toEnd = false;
       });
     });
   }
@@ -224,7 +227,7 @@ class _MessageState extends State<Message> {
             WidgetsBinding.instance?.addPostFrameCallback((_) {
               // when we sen message we need the send animation,
               // but when we got the receive message we don't need animation
-              if (!need_sendAnimation) autoScroll_toEnd();
+              if (!needJump_toEnd) autoScroll_toEnd();
             });
 
             // convert QuerySnapShot to List data
@@ -253,6 +256,7 @@ class _MessageState extends State<Message> {
                         )
                       : itemMessage_receiver(
                           message: messageData[index].text,
+                          chatProvider: chatProvider,
                         );
                 });
           }
@@ -387,7 +391,9 @@ class itemMessage_Sender extends StatelessWidget {
 // item message (receiver)
 class itemMessage_receiver extends StatelessWidget {
   final String message;
-  const itemMessage_receiver({Key? key, required this.message})
+  final ChatProvider chatProvider;
+  const itemMessage_receiver(
+      {Key? key, required this.message, required this.chatProvider})
       : super(key: key);
 
   @override
@@ -396,9 +402,27 @@ class itemMessage_receiver extends StatelessWidget {
       margin: const EdgeInsets.only(left: 10, top: 20, bottom: 10),
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         CircleAvatar(
-          backgroundImage: AssetImage("assets/images/4.png"),
+          backgroundImage: NetworkImage(
+              "https://firebasestorage.googleapis.com/v0/b/chatsapp-7265f.appspot.com/o/JknMiaj5dqUeo2FL3WqwtdKLMV83.png?alt=media&token=30934d6a-b0d0-4f87-a501-febb115a6849"),
           radius: 17,
         ),
+
+        // FutureBuilder<String>(
+        //   future: chatProvider.loadImage("JknMiaj5dqUeo2FL3WqwtdKLMV83.png"),
+        //   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        //     if (snapshot.hasData) {
+        //       print(snapshot.data.toString());
+        //       return CircleAvatar(
+        //         backgroundImage: NetworkImage(snapshot.data.toString()),
+        //         radius: 17,
+        //         backgroundColor: Colors.transparent,
+        //       );
+        //     } else {
+        //       return new Container(); // placeholder
+        //     }
+        //   },
+        // ),
+
         Container(
           margin: const EdgeInsets.only(left: 10),
           decoration: BoxDecoration(

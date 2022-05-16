@@ -1,6 +1,7 @@
 import 'package:chat_app/providers/authProvider.dart';
 import 'package:chat_app/providers/chatProvider.dart';
 import 'package:chat_app/providers/databaseProvider.dart';
+import 'package:chat_app/providers/profileProvider.dart';
 import 'package:chat_app/providers/verifyProvider.dart';
 import 'package:chat_app/screens/welcome_screen.dart';
 import 'package:chat_app/theme.dart';
@@ -49,6 +50,10 @@ class MyApp extends StatelessWidget {
               create: (context) => ChatProvider(
                     firestore: firebaseFirestore,
                   )),
+          ChangeNotifierProvider(
+              create: (context) => ProfileProvider(
+                  firebaseStorage: firebaseStorage,
+                  firestore: firebaseFirestore)),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

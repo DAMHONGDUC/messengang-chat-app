@@ -2,7 +2,7 @@ import 'package:chat_app/models/userChat.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
-  final String currUser = "currently_user";
+  final String currUser = "curently_user";
 
   Future<void> setCurrUser(
       String email, String id, String name, String photo) async {

@@ -1,3 +1,4 @@
 - chưa làm reset password
 - TH verify thì sau 1 lúc m( từ lúc check link trên mail) mới dc (xử lí animation)
-- chưa xử lí lưu + load ảnh
+- xử lí khi sign_in thì chưa load được image ở chỗ tab profile
+- đã xử lí load ảnh ở profile screen

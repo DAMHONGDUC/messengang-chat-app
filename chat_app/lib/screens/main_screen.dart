@@ -8,6 +8,7 @@ import 'package:chat_app/values/app_colors.dart';
 import 'package:chat_app/screens/message_screen.dart';
 import 'package:chat_app/screens/people_screen.dart';
 import 'package:chat_app/screens/profile_screen.dart';
+import 'package:chat_app/values/session_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,9 +27,17 @@ class _MainsScreenState extends State<MainsScreen> {
     CallScreen(),
     ProfileScreen(),
   ];
+  String urlPhoto = "";
 
   @override
   void initState() {
+    // SessionManager prefs = SessionManager();
+    // prefs.getCurrUser().then((currUser) {
+    //   if (currUser != null) {
+    //     urlPhoto = currUser.photo!;
+    //     print("photo: " + urlPhoto);
+    //   }
+    // });
     super.initState();
   }
 
@@ -55,9 +64,16 @@ class _MainsScreenState extends State<MainsScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.people), label: "People"),
           BottomNavigationBarItem(icon: Icon(Icons.call), label: "Calls"),
           BottomNavigationBarItem(
-              icon: CircleAvatar(
-                  radius: 15,
-                  backgroundImage: AssetImage("assets/images/1.png")),
+              icon: urlPhoto != ""
+                  ? CircleAvatar(
+                      backgroundImage: NetworkImage(urlPhoto),
+                      radius: 15,
+                    )
+                  : CircleAvatar(
+                      backgroundImage:
+                          AssetImage("assets/images/user_default.png"),
+                      radius: 15,
+                    ),
               label: "Profile"),
         ]);
   }

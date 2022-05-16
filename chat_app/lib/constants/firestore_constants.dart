@@ -17,4 +17,5 @@ class FirestoreContants {
   static const type_message = "type";
   static const type_message_text = "text";
   static const type_message_image = "image";
+  static const storage_profileImagePath = "user/profile/";
 }
