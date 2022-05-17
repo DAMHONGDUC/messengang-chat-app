@@ -32,6 +32,13 @@ class AuthProvider extends ChangeNotifier {
       required this.firebaseAuth,
       required this.firestore});
 
+  // Future<QuerySnapshot> getUserByName(String ID) async {
+  //   return await firestore
+  //       .collection(FirestoreContants.userCollection)
+  //       .where(FirestoreContants.id_user, isEqualTo: ID)
+  //       .get();
+  // }
+
   Future isLogIn() async {
     if (firebaseAuth.currentUser != null) {
       return true;
@@ -43,6 +50,27 @@ class AuthProvider extends ChangeNotifier {
     return user != null ? UserChat(id: user.uid, email: user.email) : null;
   }
 
+  Future<QuerySnapshot> getUserByNameID(String ID) async {
+    return await firestore
+        .collection(FirestoreContants.userCollection)
+        .where(FirestoreContants.id_user, isEqualTo: ID)
+        .get();
+
+    // await firestore
+    //     .collection(FirestoreContants.userCollection)
+    //     .where(FirestoreContants.id_user, isEqualTo: ID)
+    //     .get()
+    //     .then((SnapshotData) {
+    //   print("_userFromFirebase2: " +
+    //       SnapshotData.docs[0].get(FirestoreContants.photo_user));
+    //   return UserChat(
+    //       id: SnapshotData.docs[0].get(FirestoreContants.id_user),
+    //       email: SnapshotData.docs[0].get(FirestoreContants.email_user),
+    //       name: SnapshotData.docs[0].get(FirestoreContants.name_user),
+    //       photo: SnapshotData.docs[0].get(FirestoreContants.photo_user));
+    // });
+  }
+
   UserChat? currUser() {
     User? user = firebaseAuth.currentUser;
     return user == null ? null : UserChat(id: user.uid, email: user.email);
@@ -50,17 +78,13 @@ class AuthProvider extends ChangeNotifier {
 
   Future<UserChat?> SignIn_WithEmailPasword(
       String email, String password) async {
-    // _status = Status.authenticating;
-    // notifyListeners();
-
     try {
       UserCredential result = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       User? firebaseUser = result.user;
+
       return _userFromFirebase(firebaseUser!);
     } catch (e) {
-      // _status = Status.authenticateError;
-      // notifyListeners();
       print(e.toString());
     }
   }

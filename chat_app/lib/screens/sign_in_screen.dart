@@ -1,3 +1,4 @@
+import 'package:chat_app/constants/firestore_constants.dart';
 import 'package:chat_app/models/userChat.dart';
 import 'package:chat_app/providers/authProvider.dart';
 import 'package:chat_app/screens/main_screen.dart';
@@ -44,16 +45,52 @@ class _SignInScreenState extends State<SignInScreen> {
       });
       authProvider.SignIn_WithEmailPasword(
               emailController.text, passwordController.text)
-          .then((userchat) {
-        if (userchat != null) {
-          // save this current user
-          SessionManager prefs = SessionManager();
-          prefs.setCurrUser(userchat.email.toString(), userchat.id.toString(),
-              userchat.name.toString(), userchat.photo.toString());
+          .then((user_afterAuthen) {
+        if (user_afterAuthen != null) {
+          // get name and photo information of user from firebase
+          // because "user_afterAuthen" only have email and id
+          authProvider
+              .getUserByNameID(user_afterAuthen.id!)
+              .then((querySnapShot) {
+            if (querySnapShot.docs.length != 0) {
+              // save this current user
+              SessionManager prefs = SessionManager();
+              UserChat currUser = UserChat(
+                  email:
+                      querySnapShot.docs[0].get(FirestoreContants.email_user),
+                  id: querySnapShot.docs[0].get(FirestoreContants.id_user),
+                  name: querySnapShot.docs[0].get(FirestoreContants.name_user),
+                  photo:
+                      querySnapShot.docs[0].get(FirestoreContants.photo_user));
+              prefs.setCurrUser(
+                  currUser.id!, currUser.id!, currUser.id!, currUser.id!);
 
+              // navigator to main
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MainsScreen(
+                            currUser: currUser,
+                          )));
+            } else {}
+          });
+
+          // authProvider.userFromFirebase2(user_afterAuthen.id!).then((currUser) {
+          //   if (currUser != null) {
+          //     print("After shared: " + currUser.name.toString());
+          //     print("After shared: " + currUser.photo.toString());
+
+          //     // save this current user
+          //     SessionManager prefs = SessionManager();
+          //     prefs.setCurrUser(
+          //         currUser.email.toString(),
+          //         currUser.id.toString(),
+          //         currUser.name.toString(),
+          //         currUser.photo.toString());
+          //   }
+          // });
           // navigator to Main
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MainsScreen()));
+
         } else {
           showAlertDialog(context, "Wrong email or password. Please try again",
               () {

@@ -13,7 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MainsScreen extends StatefulWidget {
-  const MainsScreen({Key? key}) : super(key: key);
+  final UserChat currUser;
+  const MainsScreen({Key? key, required this.currUser}) : super(key: key);
 
   @override
   State<MainsScreen> createState() => _MainsScreenState();
@@ -27,19 +28,6 @@ class _MainsScreenState extends State<MainsScreen> {
     CallScreen(),
     ProfileScreen(),
   ];
-  String urlPhoto = "";
-
-  @override
-  void initState() {
-    // SessionManager prefs = SessionManager();
-    // prefs.getCurrUser().then((currUser) {
-    //   if (currUser != null) {
-    //     urlPhoto = currUser.photo!;
-    //     print("photo: " + urlPhoto);
-    //   }
-    // });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +52,16 @@ class _MainsScreenState extends State<MainsScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.people), label: "People"),
           BottomNavigationBarItem(icon: Icon(Icons.call), label: "Calls"),
           BottomNavigationBarItem(
-              icon: urlPhoto != ""
+              icon: widget.currUser.photo != null
                   ? CircleAvatar(
-                      backgroundImage: NetworkImage(urlPhoto),
+                      backgroundImage: NetworkImage(widget.currUser.photo!),
                       radius: 15,
                     )
                   : CircleAvatar(
                       backgroundImage:
                           AssetImage("assets/images/user_default.png"),
                       radius: 15,
+                      backgroundColor: Colors.transparent,
                     ),
               label: "Profile"),
         ]);

@@ -94,104 +94,11 @@ class rowUser extends StatelessWidget {
                             userChat: userchat,
                             roomID: roomID,
                           )));
-
-              // get message in this room
-              // databaseProvider
-              //     .getMessageWithChatroomID(roomID)
-              //     .then((SnapshotMessageData) {
-              //   // convert QuerySnapShot to List data
-              //   List<ChatMessage> messageData = [];
-              //   for (int i = 0; i < SnapshotMessageData.docs.length; i++) {
-              //     String UserID_sent = SnapshotMessageData.docs[i]
-              //         .get(FirestoreContants.UserID_message);
-
-              //     bool isSender = false;
-
-              //     if (UserID_sent == currUser.id) isSender = true;
-              //     messageData.add(ChatMessage(
-              //         text: SnapshotMessageData.docs[i]
-              //             .get(FirestoreContants.text_message),
-              //         messageType: ChatMessageType.text,
-              //         messageStatus: MessageStatus.viewed,
-              //         isSender: isSender));
-              //   }
-              //   // navigator to message screen
-              //   Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (context) => Message(
-              //                 listMessageData: messageData,
-              //                 userChat: userchat,
-              //                 roomID: roomID,
-              //               )));
-              // }
-              // );
             });
           } else {
             print("get curr user return null");
           }
         });
-
-        // // get curently users
-        // SessionManager prefs = SessionManager();
-        // prefs.getCurrUser().then((currUser) {
-        //   if (currUser != null) {
-        //     String roomID =
-        //         getChatRoomID(currUser.id.toString(), userchat.id.toString());
-
-        //     databaseProvider.getChatRoom(roomID).then((querySnapShot) {
-        //       if (querySnapShot.docs.length == 0) {
-        //         // if we didn't have this room before
-        //         // create a room
-        //         List<String> user = [
-        //           currUser.id.toString(),
-        //           userchat.id.toString()
-        //         ];
-        //         Map<String, dynamic> mapRoom = {
-        //           FirestoreContants.roomID_room: roomID,
-        //           FirestoreContants.UserID_room: user,
-        //         };
-        //         databaseProvider.createChatRoom(roomID, mapRoom);
-        //       } else {
-        //         // if we had this room before
-        //         // do nothing
-        //         print("we had this room before");
-        //       }
-        //       // get message in this room
-        //       databaseProvider
-        //           .getMessageWithChatroomID(roomID)
-        //           .then((SnapshotMessageData) {
-        //         // convert QuerySnapShot to List data
-        //         List<ChatMessage> messageData = [];
-        //         for (int i = 0; i < SnapshotMessageData.docs.length; i++) {
-        //           String UserID_sent = SnapshotMessageData.docs[i]
-        //               .get(FirestoreContants.UserID_message);
-
-        //           bool isSender = false;
-
-        //           if (UserID_sent == currUser.id) isSender = true;
-        //           messageData.add(ChatMessage(
-        //               text: SnapshotMessageData.docs[i]
-        //                   .get(FirestoreContants.text_message),
-        //               messageType: ChatMessageType.text,
-        //               messageStatus: MessageStatus.viewed,
-        //               isSender: isSender));
-        //         }
-        //         // navigator to message screen
-        //         Navigator.push(
-        //             context,
-        //             MaterialPageRoute(
-        //                 builder: (context) => Message(
-        //                       listMessageData: messageData,
-        //                       userChat: userchat,
-        //                       roomID: roomID,
-        //                     )));
-        //       });
-        //     });
-        //   } else {
-        //     print("get curr user return null");
-        //   }
-        // });
       },
       child: ListTile(
         leading: Stack(children: [
