@@ -19,6 +19,6 @@
   <img src="Images/7.jpg"> 
   <img src="Images/8.jpg">
   <img src="Images/9.jpg">
-  <img  src="Images/10.jpg">  
+  <img src="Images/10.jpg">  
 </kbd>
 
