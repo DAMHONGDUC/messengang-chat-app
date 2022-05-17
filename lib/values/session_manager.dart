@@ -2,13 +2,18 @@ import 'package:chat_app/models/userChat.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
-  final String currUser = "curently_user";
+  final String currUser = "currently_User";
 
   Future<void> setCurrUser(
       String email, String id, String name, String photo) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    print("before set share");
+    print(<String>[email, id, name, photo]);
     prefs.setStringList(this.currUser, <String>[email, id, name, photo]);
+    List<String>? items = prefs.getStringList(this.currUser);
+    print("after set share");
+    print(items);
   }
 
   Future<UserChat?> getCurrUser() async {

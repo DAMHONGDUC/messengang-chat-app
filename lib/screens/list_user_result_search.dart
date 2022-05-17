@@ -65,6 +65,7 @@ class rowUser extends StatelessWidget {
         SessionManager prefs = SessionManager();
         prefs.getCurrUser().then((currUser) {
           if (currUser != null) {
+            print("after get curently users: " + currUser.photo!);
             String roomID =
                 getChatRoomID(currUser.id.toString(), userchat.id.toString());
 
@@ -103,7 +104,7 @@ class rowUser extends StatelessWidget {
       child: ListTile(
         leading: Stack(children: [
           CircleAvatar(
-            backgroundImage: AssetImage("assets/images/1.png"),
+            backgroundImage: NetworkImage(userchat.photo!),
             radius: 25,
           ),
           Positioned(

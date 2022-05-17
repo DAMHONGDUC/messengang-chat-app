@@ -62,8 +62,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   name: querySnapShot.docs[0].get(FirestoreContants.name_user),
                   photo:
                       querySnapShot.docs[0].get(FirestoreContants.photo_user));
-              prefs.setCurrUser(
-                  currUser.id!, currUser.id!, currUser.id!, currUser.id!);
+              prefs.setCurrUser(currUser.email!, currUser.id!, currUser.name!,
+                  currUser.photo!);
 
               // navigator to main
               Navigator.push(

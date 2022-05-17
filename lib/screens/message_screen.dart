@@ -202,7 +202,7 @@ class _MessageState extends State<Message> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/1.png"),
+                    backgroundImage: NetworkImage(widget.userChat.photo!),
                     radius: 50,
                   ),
                   SizedBox(
@@ -215,7 +215,7 @@ class _MessageState extends State<Message> {
                   SizedBox(
                     height: 5,
                   ),
-                  Text("Say Hi..."),
+                  Text("Say hello..."),
                   SizedBox(
                     height: 20,
                   ),
@@ -255,6 +255,7 @@ class _MessageState extends State<Message> {
                           message: messageData[index].text,
                         )
                       : itemMessage_receiver(
+                          photo: widget.userChat.photo!,
                           message: messageData[index].text,
                           chatProvider: chatProvider,
                         );
@@ -309,7 +310,8 @@ class _MessageState extends State<Message> {
       title: Row(
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage("assets/images/1.png"),
+            backgroundImage: NetworkImage(widget.currUser.photo!),
+            radius: 22,
           ),
           SizedBox(
             width: 10,
@@ -321,7 +323,7 @@ class _MessageState extends State<Message> {
                 widget.userChat.name!,
                 style: TextStyle(
                   fontSize: 14,
-                  color: Colors.black.withOpacity(0.8),
+                  color: Colors.black.withOpacity(0.7),
                 ),
               ),
               Text(
@@ -391,9 +393,13 @@ class itemMessage_Sender extends StatelessWidget {
 // item message (receiver)
 class itemMessage_receiver extends StatelessWidget {
   final String message;
+  final String photo;
   final ChatProvider chatProvider;
   const itemMessage_receiver(
-      {Key? key, required this.message, required this.chatProvider})
+      {Key? key,
+      required this.message,
+      required this.chatProvider,
+      required this.photo})
       : super(key: key);
 
   @override
@@ -402,27 +408,9 @@ class itemMessage_receiver extends StatelessWidget {
       margin: const EdgeInsets.only(left: 10, top: 20, bottom: 10),
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         CircleAvatar(
-          backgroundImage: NetworkImage(
-              "https://firebasestorage.googleapis.com/v0/b/chatsapp-7265f.appspot.com/o/JknMiaj5dqUeo2FL3WqwtdKLMV83.png?alt=media&token=30934d6a-b0d0-4f87-a501-febb115a6849"),
+          backgroundImage: NetworkImage(photo),
           radius: 17,
         ),
-
-        // FutureBuilder<String>(
-        //   future: chatProvider.loadImage("JknMiaj5dqUeo2FL3WqwtdKLMV83.png"),
-        //   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        //     if (snapshot.hasData) {
-        //       print(snapshot.data.toString());
-        //       return CircleAvatar(
-        //         backgroundImage: NetworkImage(snapshot.data.toString()),
-        //         radius: 17,
-        //         backgroundColor: Colors.transparent,
-        //       );
-        //     } else {
-        //       return new Container(); // placeholder
-        //     }
-        //   },
-        // ),
-
         Container(
           margin: const EdgeInsets.only(left: 10),
           decoration: BoxDecoration(
