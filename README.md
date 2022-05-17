@@ -10,43 +10,52 @@
 
 # Screenshots
 <table>
-  <tr>
-    <td valign="top"><img src="Images/1.jpg"/></td>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <td valign="top"><img src="Images/2.jpg"/></td>
-  </tr>
+  <td>
+   <kbd>
+      <img src="Images/1.jpg"/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <img src="Images/2.jpg"/>
+   </kbd>
+  </td>
 </table>
 
 <table>
-  <tr>
-    <td valign="top"><img src="Images/3.jpg"/></td>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <td valign="top"><img src="Images/4.jpg"/></td>
-  </tr>
+  <td>
+   <kbd>
+      <img src="Images/3.jpg"/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <img src="Images/4.jpg"/>
+   </kbd>
+  </td>
 </table>
 
 <table>
-  <tr>
-    <td valign="top"><img src="Images/5.jpg"/></td>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <td valign="top"><img src="Images/6.jpg"/></td>
-  </tr>
-</table> 
-
-<table>
-  <tr>
-    <td valign="top"><img src="Images/7.jpg"/></td>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <td valign="top"><img src="Images/8.jpg"/></td>
-  </tr>
+  <td>
+   <kbd>
+      <img src="Images/5.jpg"/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <img src="Images/6.jpg"/>
+   </kbd>
+  </td>
 </table>
 
 <table>
-  <tr>
-    <td valign="top"><img src="Images/9.jpg"/></td>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <td valign="top"><img src="Images/11.jpg"/></td>
-  </tr>
+  <td>
+   <kbd>
+      <img src="Images/7.jpg"/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <img src="Images/8.jpg"/>
+   </kbd>
+  </td>
 </table>
 
+<table>
+  <td>
+   <kbd>
+      <img src="Images/9.jpg"/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <img src="Images/11.jpg"/>
+   </kbd>
+  </td>
+</table>
 
