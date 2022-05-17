@@ -9,6 +9,7 @@
 # Demo
 
 # Screenshots
+<table>
   <tr>
     <td valign="top"><img src="Images/1.jpg"/></td>
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -16,6 +17,7 @@
   </tr>
 </table>
 
+<table>
   <tr>
     <td valign="top"><img src="Images/3.jpg"/></td>
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -23,6 +25,7 @@
   </tr>
 </table>
 
+<table>
   <tr>
     <td valign="top"><img src="Images/5.jpg"/></td>
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -30,6 +33,7 @@
   </tr>
 </table> 
 
+<table>
   <tr>
     <td valign="top"><img src="Images/7.jpg"/></td>
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -37,6 +41,7 @@
   </tr>
 </table>
 
+<table>
   <tr>
     <td valign="top"><img src="Images/9.jpg"/></td>
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
