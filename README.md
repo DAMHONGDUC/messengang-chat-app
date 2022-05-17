@@ -4,6 +4,7 @@
 # Technologies
 - Flutter
 - Firebase
+- State management: Provider
 # Android (file .apk)
 
 # Demo
