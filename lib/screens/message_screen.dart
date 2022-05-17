@@ -310,7 +310,7 @@ class _MessageState extends State<Message> {
       title: Row(
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage(widget.currUser.photo!),
+            backgroundImage: NetworkImage(widget.userChat.photo!),
             radius: 22,
           ),
           SizedBox(
