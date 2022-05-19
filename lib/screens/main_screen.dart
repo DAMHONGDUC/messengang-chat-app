@@ -22,7 +22,7 @@ class MainsScreen extends StatefulWidget {
 
 class _MainsScreenState extends State<MainsScreen> {
   int _selectedIndex = 0;
-  final screen = [
+  final List<Widget> screen = [
     ListChat(data: chatsData),
     PeopleScreen(),
     CallScreen(),

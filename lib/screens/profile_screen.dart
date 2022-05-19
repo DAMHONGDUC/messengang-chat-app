@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:chat_app/constants/firestore_constants.dart';
+import 'package:chat_app/models/userChat.dart';
 import 'package:chat_app/providers/authProvider.dart';
 import 'package:chat_app/providers/profileProvider.dart';
 import 'package:chat_app/screens/sign_in_screen.dart';
@@ -11,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
+  
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
@@ -61,33 +63,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
         body: SafeArea(
           child: Column(
+            
+          
             children: [
-              Text(email),
-              Text('Username'),
-              ElevatedButton(
-                  onPressed: () {
-                    authProvider.SignOut(email);
-
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(
-                            builder: ((context) => SignInScreen())));
-                  },
-                  child: Text('Log Out')),
-              ElevatedButton(
-                  onPressed: () {
-                    getImage(profileProvider);
-                  },
-                  child: Text('Upload Image')),
-              urlPhoto != ""
+              
+              Stack(
+                children: [
+                  urlPhoto != ""
                   ? CircleAvatar(
                 backgroundImage: NetworkImage(urlPhoto),
                 radius: 50,
               )
                   : CircleAvatar(
-                backgroundImage: AssetImage("assets/images/user_default.png"),
+                backgroundImage: AssetImage("assets/images/1.png"),
                 radius: 50,
                 backgroundColor: Colors.transparent,
               ),
+                  Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                   
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 243, 243, 243),
+                      
+                      borderRadius: BorderRadius.all(Radius.circular(50))
+                    ),
+                    child: IconButton(
+                      onPressed: (){},
+                      icon: Icon(Icons.camera_alt_rounded, size:22),
+                      color: Colors.grey,),
+                  ),
+                    
+                )
+                ],
+
+              ),    
+              
             ],
           ),
         ));
